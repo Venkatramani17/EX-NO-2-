@@ -38,6 +38,84 @@ Program:
 
 
 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+
+char a[5][5];
+
+
+int main() {
+    char key[100], text[100], ch;
+    int used[26] = {0}, i, j, k = 0;
+    int r1, c1, r2, c2;
+
+
+    printf("Enter key: ");
+    scanf("%s", key);
+    printf("Enter plaintext: ");
+    scanf("%s", text);
+
+
+    used['J'-'A'] = 1;
+
+
+    for (i = 0; key[i]; i++) {
+        ch = toupper(key[i]);
+        if (ch == 'J') ch = 'I';
+        if (ch >= 'A' && ch <= 'Z' && !used[ch-'A']) {
+            a[k/5][k%5] = ch;
+            used[ch-'A'] = 1;
+            k++;
+        }
+    }
+
+
+    for (ch = 'A'; ch <= 'Z'; ch++)
+        if (!used[ch-'A'])
+            a[k/5][k++%5] = ch;
+
+
+    for (i = 0; text[i]; i++)
+        text[i] = toupper(text[i]) == 'J' ? 'I' : toupper(text[i]);
+
+
+    printf("Cipher text: ");
+
+
+    for (i = 0; text[i]; i += 2) {
+        ch = text[i];
+        char d = text[i+1] ? text[i+1] : 'X';
+
+
+        for (r1=0;r1<5;r1++)
+            for (c1=0;c1<5;c1++)
+                if (a[r1][c1]==ch) goto first;
+        first:
+        for (r2=0;r2<5;r2++)
+            for (c2=0;c2<5;c2++)
+                if (a[r2][c2]==d) goto second;
+        second:
+
+
+        if (r1==r2)
+            printf("%c%c",a[r1][(c1+1)%5],a[r2][(c2+1)%5]);
+        else if (c1==c2)
+            printf("%c%c",a[(r1+1)%5][c1],a[(r2+1)%5][c2]);
+        else
+            printf("%c%c",a[r1][c2],a[r2][c1]);
+    }
+
+
+    printf("\n");
+    return 0;
+}
+
+
 
 
 Output:
+<img width="393" height="82" alt="Screenshot 2026-10-27 092735" src="https://github.com/user-attachments/assets/d39ed951-2f7d-40c9-88be-e00198b0f374" />
+
+
